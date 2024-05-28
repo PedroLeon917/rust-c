@@ -1,3 +1,5 @@
+use std::ptr::NonNull;
+
 #[repr(C)]
 pub struct Position {
     x: i32,
@@ -22,17 +24,27 @@ fn main() {
     unsafe {
         list = generateLinkedList();
         pushBack(list, 5, 10);
-        pushBack(list, 10, 15);
-        pushBack(list, 20, 35);
+        pushBack(list, 11, 12);
+        pushBack(list, 16, 40);
+        pushBack(list, 40, 100);
         printList(list);
+
         let pos = get(list, 2);
         println!("pos: ({}, {})", pos.x, pos.y);
 
-        let pos2 = searchList(list, 20, 35);
-        println!("pos: ({}, {})", (*pos2).x, (*pos2).y);
+        let pos2 = searchList(list, 16, 40);
 
-        if let Some(pos3) = searchList(list, 200, 35).as_ref() {
-            println!("pos: ({}, {})", (*pos3).x, (*pos3).y);
+        // if !pos2.is_null() {
+        //     println!("pos: ({}, {})", (*pos2).x, (*pos2).y);
+        // } else {
+        //     println!("Data is not found");
+        // }
+
+        let pos_option = NonNull::new(pos2);
+        if let Some(data) = pos_option {
+            println!("pos: ({}, {})", data.as_ref().x, data.as_ref().y);
+        } else {
+            println!("Data is not found");
         }
 
         freeList(list);
