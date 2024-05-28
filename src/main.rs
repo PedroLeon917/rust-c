@@ -1,12 +1,12 @@
+pub enum LinkedList {} 
+
 extern "C" {
-    fn sqrt(x: f64) -> f64;
+    fn generateLinkedList() -> *mut LinkedList;
 }
 
 fn main() {
-    let x = 5.0;
-    let q: f64;
+    let list;
     unsafe {
-        q = sqrt(x);
+        list = generateLinkedList();
     }
-    println!("Sqrt root of {} is {}", x, q);
 }
